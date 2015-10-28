@@ -1,0 +1,33 @@
+{
+    "name": "usf-it/usf-visor-client-api",
+    "description": "USF VisorClientAPI.",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Eric Pierce",
+            "email": "epierce@usf.edu",
+            "role": "Developer"
+        },
+        {
+            "name": "James Jones",
+            "email": "james@mail.usf.edu"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "usf-it/usf-idm-common": "dev-master",
+        "epierce/cas-rest-client": "*",
+        "shkm/jsend": ">1.2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*",
+        "squizlabs/php_codesniffer": "2.1.*"
+    },
+    "autoload": {
+        "psr-4" : {
+            "USF\\IdM\\" : [ "src/", "tests/" ]
+        }
+    }
+}

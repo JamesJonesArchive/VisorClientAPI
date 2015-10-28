@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./tests/bootstrap.php" colors="true">
+    <php>
+        <server name="VISOR_CASURL" value="https://example.org" />
+        <server name="VISOR_URL" value="https://example.org/visor" />
+        <server name="VISOR_USERNAME" value="user" />
+        <server name="VISOR_PASSWORD" value="secret" />
+    </php>
+    <testsuites>
+        <testsuite name="usf-visor-api">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
