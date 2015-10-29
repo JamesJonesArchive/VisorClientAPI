@@ -45,30 +45,27 @@ class USFVisorAPI {
      * @return JSendResponse
      */
     public function getVisor($id) {
-        $response;
         try {
             if(!isset($this->proxyEmplid)) {
                 $response = $this->client->get($this->config['url'] . $id);
             } else {
                 // force proxy authorization for all others
                 $response = $this->client->get($this->config['url'] . $id, ['headers' => ['PROXY_USER_EMPLID' => $this->proxyEmplid]]);
-            }                    
+            }                
+            try {
+                return \JSend\JSendResponse::decode($response->getBody());
+            } catch (\JSend\InvalidJSendException $e) {
+                return new \JSend\JSendResponse('fail', [
+                    "description" => $response->getBody(),
+                    "status" => $response->getStatusCode(),
+                    "statusText" => $response->getReasonPhrase()
+                ]);
+            }
         } catch (ClientException $ex) {            
-//            echo $ex->getRequest();
-//            echo $ex->getResponse();
             return new \JSend\JSendResponse('fail', [
                 "description" => $ex->getMessage(),
                 "status" => $ex->getResponse()->getStatusCode(),
                 "statusText" => $ex->getResponse()->getReasonPhrase()
-            ]);
-        }
-        try {
-            return \JSend\JSendResponse::decode($response->getBody());
-        } catch (\JSend\InvalidJSendException $e) {
-            return new \JSend\JSendResponse('fail', [
-                "description" => $response->getBody(),
-                "status" => $response->getStatusCode(),
-                "statusText" => $response->getReasonPhrase()
             ]);
         }
     }
