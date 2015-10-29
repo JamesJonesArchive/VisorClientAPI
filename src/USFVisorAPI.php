@@ -19,6 +19,7 @@ namespace USF\IdM;
 
 use \JSend\JSendResponse;
 use \epierce\CasRestClient;
+use \GuzzleHttp\Exception\ClientException;
 /**
  * Description of USFVisorAPI
  *
@@ -44,12 +45,23 @@ class USFVisorAPI {
      * @return JSendResponse
      */
     public function getVisor($id) {
-        if(!isset($this->proxyEmplid)) {
-            $response = $this->client->get($this->config['url'] . $id);
-        } else {
-            // force proxy authorization for all others
-            $response = $this->client->get($this->config['url'] . $id, ['headers' => ['PROXY_USER_EMPLID' => $this->proxyEmplid]]);
-        }        
+        $response;
+        try {
+            if(!isset($this->proxyEmplid)) {
+                $response = $this->client->get($this->config['url'] . $id);
+            } else {
+                // force proxy authorization for all others
+                $response = $this->client->get($this->config['url'] . $id, ['headers' => ['PROXY_USER_EMPLID' => $this->proxyEmplid]]);
+            }                    
+        } catch (ClientException $ex) {            
+//            echo $ex->getRequest();
+//            echo $ex->getResponse();
+            return new \JSend\JSendResponse('fail', [
+                "description" => $ex->getMessage(),
+                "status" => $ex->getResponse()->getStatusCode(),
+                "statusText" => $ex->getResponse()->getReasonPhrase()
+            ]);
+        }
         try {
             return \JSend\JSendResponse::decode($response->getBody());
         } catch (\JSend\InvalidJSendException $e) {
