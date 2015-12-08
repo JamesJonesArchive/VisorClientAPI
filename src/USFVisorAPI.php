@@ -29,9 +29,8 @@ class USFVisorAPI {
     public $config;
     public $proxyEmplid;
     public $client;
-    public function __construct($config = [],$proxyEmplid = null) {
+    public function __construct($config = []) {
         $this->config = $config;
-        $this->proxyEmplid = $proxyEmplid;
         $this->client = new CasRestClient();
         $this->client->setCasServer($this->config['casurl']);
         $this->client->setCasRestContext('/v1/tickets');
@@ -44,13 +43,13 @@ class USFVisorAPI {
      * @param string $id
      * @return JSendResponse
      */
-    public function getVisor($id) {
+    public function getVisor($id,$proxyEmplid = null) {
         try {
-            if(!isset($this->proxyEmplid)) {
+            if(!isset($proxyEmplid)) {
                 $response = $this->client->get($this->config['url'] . $id);
             } else {
                 // force proxy authorization for all others
-                $response = $this->client->get($this->config['url'] . $id, ['headers' => ['PROXY_USER_EMPLID' => $this->proxyEmplid]]);
+                $response = $this->client->get($this->config['url'] . $id, ['headers' => ['PROXY_USER_EMPLID' => $proxyEmplid]]);
             }                
             try {
                 return \JSend\JSendResponse::decode($response->getBody());
