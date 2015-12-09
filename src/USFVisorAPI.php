@@ -49,7 +49,7 @@ class USFVisorAPI {
                 $response = $this->client->get($this->config['url'] . $id);
             } else {
                 // force proxy authorization for all others
-                $response = $this->client->get($this->config['url'] . $id, ['PROXY_USER_EMPLID' => $proxyEmplid]);
+                $response = $this->client->get($this->config['url'] . $id, ['PROXY-USER-EMPLID' => $proxyEmplid]);
             }                
             try {
                 return \JSend\JSendResponse::decode($response->getBody());
