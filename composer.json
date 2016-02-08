@@ -17,7 +17,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "usf-it/usf-idm-common": "dev-master",
+        "usf-it/usf-idm-common": "0.5.0",
         "epierce/cas-rest-client": "*",
         "NanneHuiges/JSend": "2.1.0"
     },
